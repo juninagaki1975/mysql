@@ -1,0 +1,142 @@
+MariaDB [(none)]> select version(), current_date;
++----------------------------------+--------------+
+| version()                        | current_date |
++----------------------------------+--------------+
+| 10.3.34-MariaDB-0ubuntu0.20.04.1 | 2022-03-21   |
++----------------------------------+--------------+
+1 row in set (0.000 sec)
+
+
+MariaDB [(none)]> select sin(pi()/4),(4+1)*5;
++--------------------+---------+
+| sin(pi()/4)        | (4+1)*5 |
++--------------------+---------+
+| 0.7071067811865475 |      25 |
++--------------------+---------+
+1 row in set (0.000 sec)
+
+
+MariaDB [(none)]> select version(); select now();
++----------------------------------+
+| version()                        |
++----------------------------------+
+| 10.3.34-MariaDB-0ubuntu0.20.04.1 |
++----------------------------------+
+1 row in set (0.000 sec)
+
++---------------------+
+| now()               |
++---------------------+
+| 2022-03-21 20:34:55 |
++---------------------+
+1 row in set (0.000 sec)
+
+
+MariaDB [(none)]> select
+    -> user()
+    -> ,
+    -> current_date;
++-------------------+--------------+
+| user()            | current_date |
++-------------------+--------------+
+| inagaki@localhost | 2022-03-21   |
++-------------------+--------------+
+1 row in set (0.000 sec)
+
+
+
+MariaDB [(none)]> select
+    -> user()
+    -> \c
+MariaDB [(none)]> 
+
+
+MariaDB [(none)]> select
+    -> user()
+    -> ;
++-------------------+
+| user()            |
++-------------------+
+| inagaki@localhost |
++-------------------+
+1 row in set (0.000 sec)
+
+
+
+MariaDB [(none)]> select * from my_table where name = 'Smith AND age < 30;'
+    -> '\c
+    '> '\c
+MariaDB [(none)]> 
+
+
+
+~~~~~ 3.3.1 ~~~~~
+
+
+MariaDB [(none)]> use menagerie;
+Database changed
+MariaDB [menagerie]> 
+
+
+
+jun@Jun-PC:~/myssql$ mysql -u inagaki -p menagerie
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 63
+Server version: 10.3.34-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [menagerie]> show databases;
+
+
+
+MariaDB [menagerie]> select database();
++------------+
+| database() |
++------------+
+| menagerie  |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [menagerie]> 
+
+
+
+MariaDB [menagerie]> show tables;
+Empty set (0.000 sec)
+
+MariaDB [menagerie]> 
+
+
+
+MariaDB [menagerie]> create table pet (name varchar(20), owner varchar(20),species varchar(20), sex char(1), birth date, death date);
+Query OK, 0 rows affected (0.015 sec)
+MariaDB [menagerie]> show tables;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| pet                 |
++---------------------+
+1 row in set (0.001 sec)
+
+
+
+MariaDB [menagerie]> describe pet;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(20) | YES  |     | NULL    |       |
+| owner   | varchar(20) | YES  |     | NULL    |       |
+| species | varchar(20) | YES  |     | NULL    |       |
+| sex     | char(1)     | YES  |     | NULL    |       |
+| birth   | date        | YES  |     | NULL    |       |
+| death   | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.007 sec)
+
+
+
+

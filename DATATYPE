@@ -1,0 +1,221 @@
+# data types.
+
+
+
+# Boolean.
+
+MariaDB [menagerie]> select if(0, 'true','false');
++-----------------------+
+| if(0, 'true','false') |
++-----------------------+
+| false                 |
++-----------------------+
+1 row in set (0.000 sec)
+
+MariaDB [menagerie]> select if(1, 'true','false');
++-----------------------+
+| if(1, 'true','false') |
++-----------------------+
+| true                  |
++-----------------------+
+1 row in set (0.000 sec)
+
+
+
+# int.
+
+MariaDB [menagerie]> create table numtest(num1 smallint, num2 int);
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [menagerie]> insert into numtest values(58,2054);
+Query OK, 1 row affected (0.007 sec)
+
+MariaDB [menagerie]> select * from numtest;
++------+------+
+| num1 | num2 |
++------+------+
+|   58 | 2054 |
++------+------+
+1 row in set (0.000 sec)
+
+
+MariaDB [menagerie]> insert into numtest values(50000,50000);
+ERROR 1264 (22003): Out of range value for column 'num1' at row 1
+
+MariaDB [menagerie]> create table numtest2(num1 smallint unsigned);
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [menagerie]> insert into numtest2 values(50000);
+Query OK, 1 row affected (0.007 sec)
+
+MariaDB [menagerie]> create table numtest3(num1 smallint,num2 smallint zerofill);
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [menagerie]> select * from numtest2
+    -> ;
++-------+
+| num1  |
++-------+
+| 50000 |
++-------+
+1 row in set (0.000 sec)
+
+
+
+MariaDB [menagerie]> drop table numtest;
+Query OK, 0 rows affected (0.005 sec)
+
+
+
+
+MariaDB [menagerie]> create table numtest(num1 int zerofill, num2 int(5) zerofill);
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [menagerie]> insert into numtest values(160,160);
+Query OK, 1 row affected (0.007 sec)
+
+MariaDB [menagerie]> select * from numtest;
++------------+-------+
+| num1       | num2  |
++------------+-------+
+| 0000000160 | 00160 |
++------------+-------+
+1 row in set (0.000 sec)
+
+
+
+MariaDB [menagerie]> insert into numtest values(160,123456789);
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [menagerie]> select * from numtest;
++------------+-----------+
+| num1       | num2      |
++------------+-----------+
+| 0000000160 |     00160 |
+| 0000000160 | 123456789 |
++------------+-----------+
+2 rows in set (0.000 sec)
+
+
+整数型について
+TINYINT     0 ~ 255, -128 ~ 127
+SMALLINT    0 ~ 65535, 
+MEDIUMINT
+INT 
+BIGINT 
+
+制限を超えると、limitオーバーでエラーが出る。
+
+
+
+# float
+
+MariaDB [menagerie]> create table numtest(num1 float, num2 double);
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [menagerie]> insert into numtest values(14.215, 71.5243);
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [menagerie]> select * from numtest;
++--------+---------+
+| num1   | num2    |
++--------+---------+
+| 14.215 | 71.5243 |
++--------+---------+
+1 row in set (0.000 sec)
+
+
+MariaDB [menagerie]> insert into numtest values(4e+40,4e+40);
+ERROR 1264 (22003): Out of range value for column 'num1' at row 1
+
+MariaDB [menagerie]> insert into numtest values(1.5,4e+40);
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [menagerie]> select * from numtest;
++--------+---------+
+| num1   | num2    |
++--------+---------+
+| 14.215 | 71.5243 |
+|    1.5 |    4e40 |
++--------+---------+
+2 rows in set (0.000 sec)
+
+
+# 6e4, 4e2
+MariaDB [menagerie]> create table numtest(num1 double(6,4), num2 double(4,2));
+Query OK, 0 rows affected (0.014 sec)
+
+
+MariaDB [menagerie]> insert into numtest values(25.4,25.3);
+Query OK, 1 row affected (0.007 sec)
+
+MariaDB [menagerie]> select * from numtest;
++---------+-------+
+| num1    | num2  |
++---------+-------+
+| 25.4000 | 25.30 |
++---------+-------+
+1 row in set (0.000 sec)
+
+
+
+MariaDB [menagerie]> insert into numtest values(3.55782,3.55782);
+Query OK, 1 row affected (0.007 sec)
+
+MariaDB [menagerie]> select * from numtest;
++---------+-------+
+| num1    | num2  |
++---------+-------+
+| 25.4000 | 25.30 |
+|  3.5578 |  3.56 |
++---------+-------+
+2 rows in set (0.000 sec)
+
+
+
+MariaDB [menagerie]> insert into numtest values(128.5,128.5);
+ERROR 1264 (22003): Out of range value for column 'num1' at row 1
+MariaDB [menagerie]> 
+
+
+# 符号なし
+
+MariaDB [menagerie]> create table numtest(num1 double unsigned);
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [menagerie]> insert into numtest values(-10.125);
+ERROR 1264 (22003): Out of range value for column 'num1' at row 1
+MariaDB [menagerie]> insert into numtest values(10.125);
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [menagerie]> select * from numtest;
++--------+
+| num1   |
++--------+
+| 10.125 |
++--------+
+1 row in set (0.000 sec)
+
+
+
+# zerofill
+
+MariaDB [menagerie]> create table numtest(num1 double zerofill, num2 double(10,5) zerofill);
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [menagerie]> insert into numtest values(16.725, 16.725);
+Query OK, 1 row affected (0.007 sec)
+
+MariaDB [menagerie]> select * from numtest;
++------------------------+------------+
+| num1                   | num2       |
++------------------------+------------+
+| 000000000000000016.725 | 0016.72500 |
++------------------------+------------+
+1 row in set (0.001 sec)
+
+
+
+
+
+

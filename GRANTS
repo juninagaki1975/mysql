@@ -1,0 +1,26 @@
+
+MariaDB [(none)]> show grants for inagaki;
++--------------------------------------------------------------------------------------------------------+
+| Grants for inagaki@%                                                                                   |
++--------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `inagaki`@`%` IDENTIFIED BY PASSWORD '*9B2ADE15302264B308F269E645BD2F3DA777E6EE' |
++--------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+
+(as su)
+MariaDB [(none)]> grant all on *.* to inagaki;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| laravel_db         |
+| menagerie          |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.006 sec)
+
